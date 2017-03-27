@@ -1,0 +1,90 @@
+<html>
+<canvas id="myCanvas" width="800" height="400"></canvas>
+<script>
+
+var canvas;
+var canvasContext;
+var ballRadius = 10;
+var x=50;
+var y=50;
+var dx=10;
+var dy=4;
+var paddleHeight=10;
+var paddleWidth=75;
+var paddleX=(800-paddleWidth)/2;
+var rightPressed=false;
+var leftPressed=false;
+var livesLeft=3;
+
+
+window.onload=function(){
+canvas = document.getElementById('myCanvas');
+canvasContext = canvas.getContext('2d');
+setInterval(draw,1000/35);
+}
+
+
+
+function drawBall(){
+	canvasContext.beginPath();
+	canvasContext.arc(x,y,ballRadius,0,Math.PI*2,true);
+	canvasContext.fillStyle = "white";
+	canvasContext.fill();
+	canvasContext.closePath();
+	
+}
+
+function drawPaddle(){
+	canvasContext.beginPath();
+	canvasContext.rect(paddleX,canvas.height-paddleHeight,paddleWidth,paddleHeight);
+	canvasContext.fillStyle = "white";
+	canvasContext.fill();
+	canvasContext.closePath();
+}
+
+function checkFunction(){
+	
+	if(y+dy<ballRadius){
+		dy = -dy;	
+	}
+	if(y+dy<canvas.height-ballRadius){
+			if(x>paddleX && x< paddleX+paddleWidth){
+				dy=-dy;									
+									
+			}
+			else{
+				livesLeft--;
+				if(livesLeft==0)
+					{
+						alert("game over");
+						document.location.reload();
+
+					}
+			}
+	}
+	if(x+dx<ballRadius){
+		dx = -dx;	
+	}
+	if(x+dx<canvas.width-ballRadius){
+		dx = -dx;	
+	}
+	
+}
+
+function draw(){
+	canvasContext.fillStyle="black";
+	canvasContext.fillRect(0,0,canvas.width,canvas.height);
+	drawBall();
+	drawPaddle();
+	checkFunction();
+	x+=dx;
+	y+=dy;
+}
+
+
+
+
+
+		
+</script>
+</html>
